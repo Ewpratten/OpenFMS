@@ -15,4 +15,8 @@ public class Config {
 
         public static int max_tcp_msg_buffer = 4096;
     }
+
+    public static class Arena {
+        public static int loop_period_ms = 10;
+    }
 }

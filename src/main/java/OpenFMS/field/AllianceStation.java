@@ -1,10 +1,11 @@
 package OpenFMS.field;
 
 import OpenFMS.network.TCPConn;
+import OpenFMS.field.DriverStation;
 import OpenFMS.model.Team;
 
 public class AllianceStation {
-    public DSConn dsconn;
+    public DriverStation ds;
     public TCPConn tcp_conn_thread;
 
     public boolean estop = false;

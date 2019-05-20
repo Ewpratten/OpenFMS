@@ -1,6 +1,6 @@
 package OpenFMS.field;
 
-public class DSConn {
+public class DriverStation {
     // Team info
     public int team_id = 0;
     public AllianceStation alliance_station;

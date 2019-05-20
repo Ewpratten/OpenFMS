@@ -3,12 +3,15 @@
  */
 package OpenFMS;
 
+import OpenFMS.field.Arena;
+
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
+    static Arena field;
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        field = new Arena();
+
+        // Start FMS
+        field.run();
     }
 }
