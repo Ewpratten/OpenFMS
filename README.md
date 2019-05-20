@@ -1,5 +1,5 @@
 
-<ing src="./logo.png" align="center"></img>
+<span style="display:block;text-align:center">![](./logo.png)</span>
 
 # OpenFMS
 The open source, game-agnostic Field Management System for FRC
