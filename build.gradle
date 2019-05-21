@@ -30,3 +30,16 @@ dependencies {
 
 // Define the main class for the application
 mainClassName = 'OpenFMS.App'
+version = '0.1'
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'OpenFMS',  
+        	'Implementation-Version': version,
+        	'Main-Class': mainClassName
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

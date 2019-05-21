@@ -12,6 +12,7 @@ public class App {
         field = new Arena();
 
         // Start FMS
+        System.out.println("[App] Welcome to OpenFMS!");
         field.run();
     }
 }
