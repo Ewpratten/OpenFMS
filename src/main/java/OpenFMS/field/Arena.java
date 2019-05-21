@@ -27,6 +27,8 @@ public class Arena {
     MatchState match_state;
     MatchState last_match_state;
 
+    // Webserver data
+    String current_sound = "";
 
     // Alliance stations
     Map<String, AllianceStation> alliance_stations = new HashMap<String, AllianceStation>();
@@ -73,6 +75,25 @@ public class Arena {
     }
 
     private void update() {
+        boolean auto = false;
+        boolean enabled = false;
+        boolean send_packet = false;
+        double match_time_ms = System.currentTimeMillis();
+
+        if (match_state == MatchState.pre) {
+            auto = true;
+            enabled = false;
+        } else if (match_state == MatchState.start){
+            this.match_start_time = match_time_ms;
+            this.last_match_time = -1;
+
+            auto = true;
+            enabled = true;
+            send_packet = true;
+
+            this.match_state = MatchState.auto;
+            this.current_sound = "auto";
+        }
 
     }
     
