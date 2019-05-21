@@ -7,7 +7,7 @@ import java.lang.Thread;
 import OpenFMS.Config;
 import OpenFMS.model.MatchState;
 
-public class Arena {
+public class Arena extends Thread{
     // Match abore status
     boolean match_aborted = false;
 
