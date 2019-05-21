@@ -58,7 +58,6 @@ public class Arena {
         // Main update loop
         System.out.println("[Arena] All systems ready. Starting field");
         while (true) {
-            
 
             // Update, sleep, and exit if intrrupted
             try {
@@ -73,26 +72,83 @@ public class Arena {
             }
         }
     }
+    
+    private double getMatchTime() {
+        if (match_state == MatchState.pre || match_state == MatchState.start) {
+            return 0.0;
+        }
+
+        return (System.currentTimeMillis() - match_start_time);
+    }
+
+    private void sendDSPacket(boolean auto, boolean enabled) {
+
+    }
 
     private void update() {
         boolean auto = false;
         boolean enabled = false;
         boolean send_packet = false;
-        double match_time_ms = System.currentTimeMillis();
+        double match_time_ms = getMatchTime();
 
         if (match_state == MatchState.pre) {
             auto = true;
             enabled = false;
+
         } else if (match_state == MatchState.start){
-            this.match_start_time = match_time_ms;
+            this.match_start_time = System.currentTimeMillis();
             this.last_match_time = -1;
 
             auto = true;
             enabled = true;
             send_packet = true;
 
+            System.out.println("[Game] Starting match");
+
             this.match_state = MatchState.auto;
             this.current_sound = "auto";
+
+        } else if (match_state == MatchState.auto) {
+            auto = true;
+            enabled = true;
+
+            if (match_time_ms >= Config.Timing.auto_period_ms) {
+                auto = false;
+                enabled = true;
+                send_packet = true;
+
+                this.current_sound = "teleop";
+
+                System.out.println("[Game] Switching mode to teleop");
+
+                this.match_state = MatchState.teleop;
+            }
+            
+        } else if (match_state == MatchState.teleop) {
+            auto = false;
+            enabled = true;
+
+            if (match_time_ms > Config.Timing.auto_period_ms + Config.Timing.teleop_period_ms) {
+                auto = false;
+                enabled = false;
+                send_packet = true;
+
+                this.match_state = MatchState.pre;
+
+                System.out.println("[Game] Match finished");
+
+                this.current_sound = "matchend";
+            }
+
+        }
+        
+        // TODO: notify displays ws
+
+        this.last_match_time = match_time_ms;
+        this.last_match_state = match_state;
+
+        if (send_packet || System.currentTimeMillis() - last_packet_time >= Config.Arena.packet_period_ms) {
+            sendDSPacket(auto, enabled);
         }
 
     }

@@ -18,5 +18,11 @@ public class Config {
 
     public static class Arena {
         public static int loop_period_ms = 10;
+        public static int packet_period_ms = 250;
+    }
+
+    public static class Timing {
+        public static int auto_period_ms = 15000;
+        public static int teleop_period_ms = 135000;
     }
 }
